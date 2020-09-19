@@ -5,18 +5,19 @@ from matplotlib import pyplot as plt
 import math
 import matplotlib.patches as mpatches
 
-metalName = 'Gallium'
-liquidName = 'Mercury'
-liquidTemp = '100' #in celcius
+metalName = 'Steel'
+liquidName = 'Water'
+liquidTemp = '50' #in celcius
 
-densityOfSphere = 5904 #in kg/m^3, our metal is GALLIUM!?!?
-radius = 0.1 #sphere has teeny radius
+densityOfSphere = 8050 #in kg/m^3
+radius = 0.2 #sphere has teeny radius
 area = math.pi * radius ** 2 # cross sectional area in m^2
 aerodynamicCoef = 0.12 #tf is this?
 airAtSeaLevel = 1.225 #density of air at sea level in Kg/m^3
 gravity = 9.81 #m/s^2, acceleration of gravity
 velocityArray = [] #empty array for later
-drag = 0.5 * aerodynamicCoef * airAtSeaLevel * area #all-inclusive coeffecient?????????????????????????????????????????
+densityOfLiquid = 997 #kg/m^3
+drag = 0.5 * aerodynamicCoef * densityOfLiquid * area #all-inclusive coeffecient
 timeStep = 0.1 #interval of time
 totalDuration = 50 #seconds
 
@@ -30,7 +31,6 @@ mass = densityOfSphere / volume
 #mercury!!!!!!!!!!!!!
 #source: https://www.engineeringtoolbox.com/mercury-d_1002.html
 #temp 100 degrees Celcius
-densityOfLiquid = 13351 #kg/m^3
 
 
 #use this info to calculate buoyancy
@@ -51,7 +51,7 @@ accelerationArray = []
 
 #make calculations
 for i in range(2, len(timeIntervals)):
-    acceleration = gravity - (buoyancy / mass) * velocityArray[i -1] ** 2
+    acceleration = gravity - ((buoyancy + drag) / mass) * velocityArray[i -1] ** 2
     accelerationArray.append(acceleration)
     velocityArray.append(velocityArray[i -1] + acceleration * timeStep)
 
